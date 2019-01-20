@@ -13,6 +13,10 @@ import java.util.Arrays;
 
 public class NetworkWordCount {
     public static void main(String[] args) throws InterruptedException {
+
+        String localhost = "localhost";
+        String host = "172.18.0.1";
+
         SparkConf conf = new SparkConf()
                 .setAppName("NetworkWordCount")
                 .setMaster("local");
@@ -20,7 +24,7 @@ public class NetworkWordCount {
                 new JavaStreamingContext(conf, Durations.seconds(1));
 
         JavaReceiverInputDStream<String> lines =
-                jssc.socketTextStream("localhost", 9999);
+                jssc.socketTextStream(host, 9999);
 
         JavaDStream<String> words =
                 lines.flatMap(x -> Arrays.asList(x.split(" ")).iterator());
